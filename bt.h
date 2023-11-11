@@ -11,10 +11,23 @@
 #define YES 1
 
 // struct que define uma página
+/*
 typedef struct {
     short keycount; // quantidade de chaves em uma página
     char key[MAXKEYS]; // array de chaves
     short child[MAXKEYS+1]; // pointers para os RRNs dos descendentes
+} BTPAGE;
+*/
+
+typedef struct {
+       char key[12];
+       long b_offset;
+} PKEY;
+
+typedef struct {
+       short keycount;
+       PKEY keys[MAXKEYS];       // array de chaves primárias
+       short child[MAXKEYS+1]
 } BTPAGE;
 
 #define PAGESIZE sizeof(BTPAGE)
