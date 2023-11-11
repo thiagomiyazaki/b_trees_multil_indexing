@@ -6,13 +6,13 @@
 FILE *btfd; // ptr para arquivo da B-Tree (mudei de file descriptor para FILE struct)
 
 // abre o arquivo da arvore-B
-btopen(){
+int btopen(){
     btfd = fopen("btree.dat", "w+"); // trocar por fopen()
     return (btfd != NULL ? 1 : 0);
 }
 
 // fecha o arquivo da arvore-B
-btclose(){
+void btclose(){
     fclose(btfd);
 }
 
@@ -28,7 +28,7 @@ short getroot(){
 }
 
 // atualiza o header do arquivo da arvore-B com RRN da nova pagina raiz
-putroot(short root){
+void putroot(short root){
     rewind(btfd),
     fwrite(&root, sizeof(short), 1, btfd);
 }
@@ -74,7 +74,7 @@ pre:
     por *page_ptr
 */
 // le uma pagina
-btread(short rrn, BTPAGE *page_ptr){
+int btread(short rrn, BTPAGE *page_ptr){
     long addr;
 
     // cálculo do byte offset do RRN da página que queremos acessar
@@ -95,7 +95,7 @@ pre:
     - BTPAGE *page_ptr: o conteúdo apontado por page_ptr será escrito em btfd
 */
 // escreve uma pagina
-btwrite(short rrn, BTPAGE *page_ptr){
+int btwrite(short rrn, BTPAGE *page_ptr){
     long addr;
 
     // cálculo do byte offset, usado para posicionar o cursor no lugar correto

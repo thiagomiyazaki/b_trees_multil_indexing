@@ -100,7 +100,7 @@ void ins_in_page(char key, short r_child, BTPAGE *p_page){
 */
 // faz a operacao de split de uma pagina
 // somente para ordem par!! Adaptar para ordem impar!
-void split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *promo_r_child, BTPAGE *p_newpage){
+void old_split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *promo_r_child, BTPAGE *p_newpage){
     int j;
     short mid;
     char workkeys[MAXKEYS + 1];
@@ -150,7 +150,7 @@ void split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *p
     *promo_key = workkeys[MINKEYS];
 }
 
-void new_split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *promo_r_child, BTPAGE *p_newpage){
+void split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *promo_r_child, BTPAGE *p_newpage){
     int j;  
     char workkeys[MAXKEYS + 1];
     short workchil[MAXKEYS + 2];
