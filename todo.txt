@@ -1,0 +1,6 @@
+1. Impedir a inserção de chaves repetidas.
+2. Verbose (print), avisar:
+    - (OK) que um nó foi dividido - “Divisão de nó”
+    - (OK) quando houver promoção de chave - “Chave promovida: <X>”
+    - (OK) quando a inserção for bem sucedida: “Chave inserida com sucesso: <X>” / printar ao final da inserção
+    - (OK) quando tentar inserir chave já existente: “Chave duplicada: <X>” / printar ao final da inserção

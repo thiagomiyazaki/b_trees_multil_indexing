@@ -16,15 +16,27 @@
             root = create_tree();
         }
         while (1){
-            printf("Digite a chave que deseja inserir, ou '0' para sair do programa: ");
+            printf("\n#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#\n\n");
+            printf("Digite a chave que deseja inserir, ou '0' para sair do p: ");
+
             key = getchar();
             getc(stdin);
+
             printf("\n");
-            if(key = '0')
+
+            if(key == '0'){
+                printf("\n#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---\n\n");
                 break;
+            }
+                
             promoted = insert(root, key, &promo_rrn, &promo_key);
-            if (promoted)
+            if (promoted){
+                printf("Chave promovida: %c\n", promo_key);
                 root = create_root(promo_key, root, promo_rrn);
+                printf("Chave inserida com sucesso: %c\n", key);
+                printf("\n#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---#---\n\n");
+            }
+                
         }
         btclose();
 }

@@ -153,6 +153,7 @@ void old_split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, shor
 }
 
 void split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *promo_r_child, BTPAGE *p_newpage){
+    printf("Divisão de nó!\n");
     int j;  
     char workkeys[MAXKEYS + 1];
     short workchil[MAXKEYS + 2];

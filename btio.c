@@ -115,7 +115,7 @@ int btwrite(short rrn, BTPAGE *page_ptr){
     // posiciona o cursor
     fseek(btfd, addr, SEEK_SET);
 
-    printf("-#-#-#-#-#-#-#-#-#-#-#-#\n");
+    printf("!---*---*---*---*---*---*---*!\n\n");
 
     printf("RRN: %d\n", rrn);
     printf("sizeof: %ld\n", sizeof(BTPAGE));
@@ -125,9 +125,9 @@ int btwrite(short rrn, BTPAGE *page_ptr){
     printf("\nchild ptrs: ");
     for(int i = 0; i < MAXKEYS; i++)
         printf("%d ", page_ptr->child[i]);
-    printf("\n");
+    printf("\n\n");
 
-    printf("-#-#-#-#-#-#-#-#-#-#-#-#\n");
+    printf("!---*---*---*---*---*---*---*!\n\n");
 
     // faz a escrita, de fato
     return fwrite(page_ptr, sizeof(BTPAGE), 1, btfd);

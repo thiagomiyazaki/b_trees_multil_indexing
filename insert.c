@@ -40,7 +40,7 @@ int insert(short rrn, char key, short *promo_r_child, char *promo_key){
     found = search_node(key, &page, &pos);
 
     if (found){
-        printf("Error: attempt to insert duplicate key: %c \n\007", key);
+        printf("Chave Duplicada: %c \n\007", key);
         return (0);
     }
 
@@ -53,6 +53,7 @@ int insert(short rrn, char key, short *promo_r_child, char *promo_key){
     if (page.keycount < MAXKEYS){
         ins_in_page(p_b_key, p_b_rrn, &page);
         btwrite(rrn, &page);
+        printf("Chave inserida com sucesso: %c\n", key);
         return (NO);
     }
     else{ // não há espaço disponível dentro da página, tem q fazer split
