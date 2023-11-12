@@ -1,4 +1,12 @@
 #include <stdio.h>
+
+/*
+tive que inserir essa diretiva para desligar uma otimização
+na hora da compilação que forçava a struct a ter 14 bytes
+ao invés de 13 - a otimização ajuda o programa a acessar
+mais rapidamente a memória, pois dependendo do endereço em que
+o dado cai, é mais fácil e rápido ler na memória.
+*/
 #pragma pack(1)
 
 // note que MAXKEYS guarda a quantidade máxima de chaves

@@ -15,8 +15,13 @@
             // se não existe vai ser criado
             root = create_tree();
         }
-        while ((key = getchar()) != 'q'){
+        while (1){
+            printf("Digite a chave que deseja inserir, ou '0' para sair do programa: ");
+            key = getchar();
             getc(stdin);
+            printf("\n");
+            if(key = '0')
+                break;
             promoted = insert(root, key, &promo_rrn, &promo_key);
             if (promoted)
                 root = create_root(promo_key, root, promo_rrn);

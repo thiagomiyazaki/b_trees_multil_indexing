@@ -26,7 +26,7 @@ void btclose(){
 
 // le o header do arquivo da arvore-B e recupera RRN da pagina raiz
 short getroot(){
-    printf("função get_root()\n");
+    //printf("função get_root()\n");
     short root;
     fseek(btfd, 0, SEEK_SET);   // podia ser rewind() tb
     if (fread(&root, sizeof(short), 1, btfd) == 0){ // trocar por fread()
