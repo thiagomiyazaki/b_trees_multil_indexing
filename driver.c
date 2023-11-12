@@ -8,12 +8,15 @@
         char promo_key, // key promoted from below
             key;        // next key to insert in tree
         if (btopen()){
+            // se o arquivo já existe entra aqui
             root = getroot();
         } 
         else{
+            // se não existe vai ser criado
             root = create_tree();
         }
         while ((key = getchar()) != 'q'){
+            getc(stdin);
             promoted = insert(root, key, &promo_rrn, &promo_key);
             if (promoted)
                 root = create_root(promo_key, root, promo_rrn);

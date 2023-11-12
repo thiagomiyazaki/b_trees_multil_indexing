@@ -17,7 +17,7 @@ pre:
     - short promo_r_child: ptr do filho direito de promo_key (chave promovida)
     - promo_key: a chave a ser promovida
 */
-insert(short rrn, char key, short *promo_r_child, char *promo_key){
+int insert(short rrn, char key, short *promo_r_child, char *promo_key){
     BTPAGE page,         // current page
         newpage;         // new page created if split occurs
     int found, promoted; // boolean values

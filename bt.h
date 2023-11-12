@@ -1,9 +1,10 @@
 #include <stdio.h>
+#pragma pack(1)
 
 // note que MAXKEYS guarda a quantidade máxima de chaves
 // logo a quantidade de pointer to children = MAXKEYS + 1
-#define MAXKEYS 4 
-#define MINKEYS MAXKEYS/2   // quantidade mínima de chaves?
+#define MAXKEYS 3
+#define MINKEYS 1  // quantidade mínima de chaves?
 #define NIL (-1)
 
 // é como se fosse o NIL/NULL mas para keys, indica vazio
@@ -51,7 +52,7 @@ short create_root(char key, short left, short right);
 short create_tree();
 short getpage();
 short getroot();
-insert(short rrn, char key, short *promo_r_child, char *promo_key);
+int insert(short rrn, char key, short *promo_r_child, char *promo_key);
 void ins_in_page(char key,short r_child, BTPAGE *p_page);
 void pageinit(BTPAGE *p_page);
 void putroot(short root);

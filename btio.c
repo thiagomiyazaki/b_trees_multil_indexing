@@ -1,5 +1,7 @@
 /* btio.c Contém funções que controlam I/O: */
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "bt.h"
 //#include "fileio.h" acho que n precisa mais
 
@@ -7,8 +9,14 @@ FILE *btfd; // ptr para arquivo da B-Tree (mudei de file descriptor para FILE st
 
 // abre o arquivo da arvore-B
 int btopen(){
+    if (access("btree.dat", F_OK) == -1)        
+        return 0;
+    btfd = fopen("btree.dat", "rb+");
+    return 1;
+    /*
     btfd = fopen("btree.dat", "w+"); // trocar por fopen()
     return (btfd != NULL ? 1 : 0);
+    */
 }
 
 // fecha o arquivo da arvore-B
@@ -18,6 +26,7 @@ void btclose(){
 
 // le o header do arquivo da arvore-B e recupera RRN da pagina raiz
 short getroot(){
+    printf("função get_root()\n");
     short root;
     fseek(btfd, 0, SEEK_SET);   // podia ser rewind() tb
     if (fread(&root, sizeof(short), 1, btfd) == 0){ // trocar por fread()
@@ -42,7 +51,8 @@ short create_tree(){
     fwrite(&header, sizeof(short), 1, btfd);  // escreve a raiz
     fclose(btfd);                      // lembrar de escrever um header = -1 para a posição já existir e ser possível
     btopen();                         //                                            os deslocamentos em outros pontos
-    key = getchar();    // pega a chave de stdin 
+    scanf("%c", &key);    // pega a chave de stdin
+    getc(stdin);
     return (create_root(key, NIL, NIL));
 }
 
@@ -62,8 +72,9 @@ sabemos que o seu RRN é dado pela quantidade de páginas, pois os RRNs são 0-i
 // descobre o proximo RRN disponivel
 short getpage(){
     long addr;
-    addr = fseek(btfd, -2, SEEK_END);
-    return (short)(addr / PAGESIZE);
+    fseek(btfd, 0, SEEK_END);
+    addr = ftell(btfd);
+    return (short)((addr-2) / PAGESIZE);
 }
 
 
@@ -103,6 +114,20 @@ int btwrite(short rrn, BTPAGE *page_ptr){
 
     // posiciona o cursor
     fseek(btfd, addr, SEEK_SET);
+
+    printf("-#-#-#-#-#-#-#-#-#-#-#-#\n");
+
+    printf("RRN: %d\n", rrn);
+    printf("sizeof: %ld\n", sizeof(BTPAGE));
+    printf("keycount: %d\nkeys: ", page_ptr->keycount);
+    for(int i = 0; i < MAXKEYS; i++)
+        printf("%c ", page_ptr->key[i]);
+    printf("\nchild ptrs: ");
+    for(int i = 0; i < MAXKEYS; i++)
+        printf("%d ", page_ptr->child[i]);
+    printf("\n");
+
+    printf("-#-#-#-#-#-#-#-#-#-#-#-#\n");
 
     // faz a escrita, de fato
     return fwrite(page_ptr, sizeof(BTPAGE), 1, btfd);

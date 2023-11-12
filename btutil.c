@@ -16,6 +16,8 @@ short create_root(char key, short left, short right){
     // pega a quantidade de páginas em btfd
     rrn = getpage();
 
+    printf("RRN from getpage(), inside create_root: %d\n", rrn);
+
     // inicializa a página com valores nulos/vazios
     pageinit(&page);
 
@@ -199,4 +201,6 @@ void split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *p
     p_oldpage->keycount = MINKEYS + 1;
 
     *promo_key = workkeys[MINKEYS + 1];
+
+    printf("será promovido: %c\n", *promo_key);
 }
