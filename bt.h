@@ -101,6 +101,9 @@ void pageinit(BTPAGE *p_page);
 void putroot(short root);
 int search_node(reg_index key, BTPAGE *p_page, short *pos);
 void split(reg_index key, short r_child, BTPAGE *p_oldpage, reg_index *promo_key, short *promo_r_child, BTPAGE *p_newpage);
+int search_btree(short rrn, reg_index key, short *found_rrn, short *found_pos);
+reg_index get_index(short rrn, short pos, reg_index *picked_item);
+void in_order_list(short rrn, FILE *db_file);
 
 // !--- FUNÇÕES LOAD ---!
 // funcao que le o arquivo e o carrega na memoria como
@@ -131,6 +134,8 @@ void insere_menu(registro *array_ins, int qt_registros);
 
 // printa o menu de busca
 void busca_menu(chave_prima *array_chaves, int qt_chaves);
+
+void print_single_reg(registro print_me);
 
 
 

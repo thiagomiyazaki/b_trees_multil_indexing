@@ -277,8 +277,8 @@ int main(int argc, char **argv){
                     printf("\n");
                     opcao--;
 
-                    if(opcao < 0 || opcao > qt_registros_insere-1){
-                        if (opcao > qt_registros_insere-1)
+                    if(opcao < 0 || opcao > qt_registros_busca - 1){
+                        if (opcao > qt_registros_busca - 1)
                             printf("Opção inválida! Saindo...\n");
                         else
                             printf("Voltando ao menu principal...\n");
@@ -288,31 +288,42 @@ int main(int argc, char **argv){
                 // !-- ARMAZENA A CHAVE ESCOLHIDA EM chave_escolhida ---!
                     chave_prima chave_escolhida = init_chave_prima();
                     strcpy(chave_escolhida.chave, array_de_chaves_busca[opcao].chave);
+                    reg_index index_escolhido;
+                    strcpy(index_escolhido.chave.chave, chave_escolhida.chave);
 
-                /*
-                // !-- BUSCA LINEAR PELA CHAVE ESCOLHIDA NO ARRAY DE INDICES ---!
-                    // compara a chave de todos os indices com a chave escolhida
-                    for(int i = 0; i < qt_indices; i++){
-                        if(chave_prima_igual(chave_escolhida, array_indices[i].chave)){
-                            registro_encontrado = get_registro_pelo_indice(array_indices[i], output_file);
-                            printf("Código do Cliente: %s\n", registro_encontrado->cliente_code);
-                            printf("Placa do veículo: %s\n", registro_encontrado->veiculo_code);
-                            printf("Nome do cliente: %s\n", registro_encontrado->cliente_nome);
-                            printf("Nome do veículo: %s\n", registro_encontrado->veiculo_nome);
-                            printf("Quantidade de dias: %d\n\n", registro_encontrado->no_dias);
-                            found_flag = true;
-                        }
+                    btopen();
+                    short root = getroot();
+                    short found_rrn, found_pos;
+
+                    found_flag = search_btree(root, index_escolhido, &found_rrn, &found_pos);
+
+                    if(found_flag){
+                        printf("*** Chave encontrada: %s | pg: %d | pos: %d ***\n", chave_escolhida.chave, found_rrn, found_pos);
+                        index_escolhido = init_index();
+                        get_index(found_rrn, found_pos, &index_escolhido);
+                        printf("index_escolhido -> chave: %s, offset: %ld\n", index_escolhido.chave.chave, index_escolhido.offset);
+                        registro *print_me = get_registro_pelo_indice(index_escolhido, output_file);
+                        print_single_reg(*print_me);
                     }
-                */
-
-                    if(!found_flag)
+                    else
                         printf("*** Item não encontrado! ***\n\n");
+                    
 
-                    // fechar o arquivo                 
+                    btclose();
+                    fclose(output_file);
                 }
                 break;
                 
             case 3:
+                btopen();
+                output_file = fopen("database.bin", "rb");
+                short root = getroot();
+                in_order_list(root, output_file);
+                fclose(output_file);
+                btclose();
+
+                break;
+            case 4:
                 printf("Fechando o programa...\n");
                 exit(1);
                 break;

@@ -21,3 +21,18 @@ OK! - void putroot(short root);
 OK! - int search_node(char key, BTPAGE *p_page, short *pos);
 OK! - void split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *promo_r_child, BTPAGE *p_newpage);
 OK! - int insert(short rrn, char key, short *promo_r_child, char *promo_key);
+
+1. 33333333333CDE9874 EXISTE
+2. 11111111111ERT4561 
+3. 77777777777TOP5487 
+4. 44444444444ERT4561 EXISTE
+
+
+1. 11111111111 ABC1234
+2. 11111111111 ERT4561
+3. 11111111111 UJG3574
+4. 22222222222 ABC1234
+5. 33333333333 CDE9874 
+6. 44444444444 ERT4561 
+7. 77777777777 TOP5487 
+8. 88888888888 IUY3214 

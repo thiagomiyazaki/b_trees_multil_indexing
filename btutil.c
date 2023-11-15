@@ -182,3 +182,34 @@ void split(reg_index key, short r_child, BTPAGE *p_oldpage, reg_index *promo_key
 
     // printf("!--- Será promovido: %c ---!\n", *promo_key);
 }
+
+reg_index get_index(short rrn, short pos, reg_index *picked_item){
+    rewind(btfd);
+    fseek(btfd, 2 + (rrn * sizeof(BTPAGE)) + 2 + (pos * sizeof(reg_index)), SEEK_SET);
+    fread(picked_item, sizeof(reg_index), 1, btfd);
+}
+
+void in_order_list(short rrn, FILE *db_file){
+    if(rrn == -1)
+        return;
+    BTPAGE page;
+    btread(rrn, &page);
+    in_order_list(page.child[0], db_file);
+
+    reg_index buffer;
+    for(int i = 0; i < page.keycount; i++){
+        if(page.key[i].chave.chave[0] != '@'){
+            buffer = init_index();
+            reg_index_copy(&buffer, &(page.key[i]));
+            registro *print_me = get_registro_pelo_indice(buffer, db_file);
+            printf("\n<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>\n\n");
+            print_single_reg(*print_me);
+            printf("\n<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>\n\n");
+        }
+
+        if(page.child[i + 1] == -1)
+            continue;
+        else
+            in_order_list(page.child[i + 1], db_file);
+    }
+}

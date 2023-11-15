@@ -61,7 +61,8 @@ void show_main_menu(){
     printf("\nSelecione a opção desejada: \n\n");
     printf("1. Inserir um registro\n");
     printf("2. Pesquisa por chave primária\n");
-    printf("3. Sair\n\n");
+    printf("3. Percurso 'In Order'\n");
+    printf("4. Sair\n\n");
 
     printf("Digite a opção desejada: ");
 }
@@ -254,4 +255,18 @@ registro *get_registro_pelo_indice(reg_index item_escolhido, FILE *database_file
 void reg_index_copy(reg_index *dest, reg_index *source){
     strcpy(dest->chave.chave, source->chave.chave);
     dest->offset = source->offset;
+}
+
+
+
+void print_single_reg(registro print_me){
+
+    printf("Dados do Registro:\n");
+    printf("Codigo Cliente: %s\n", print_me.cliente_code);
+    printf("Codigo Veiculo: %s\n", print_me.veiculo_code);
+    printf("Nome Cliente: %s\n", print_me.cliente_nome);
+    printf("Nome Veiculo: %s\n", print_me.veiculo_nome);
+    printf("Quantidade de dias: %d\n", print_me.no_dias);
+    //printf("Qtd. de bytes necessarios para armazenamento: %d\n\n", print_me.size_registro);
+
 }
