@@ -43,17 +43,15 @@ void putroot(short root){
 }
 
 // cria o arquivo da arvore-B e insere primeira chave na primeira pagina
-short create_tree(){
+short create_tree(reg_index insert_me){
     short header = -1;
-    char key;
     // cria o arquivo, e se já existe, apaga tudo
     btfd = fopen("btree.dat", "wb");
-    fwrite(&header, sizeof(short), 1, btfd);  // escreve a raiz
+    fwrite(&header, sizeof(short), 1, btfd);  // escreve o RRN da raiz
     fclose(btfd);                      // lembrar de escrever um header = -1 para a posição já existir e ser possível
     btopen();                         //                                            os deslocamentos em outros pontos
-    scanf("%c", &key);    // pega a chave de stdin
-    getc(stdin);
-    return (create_root(key, NIL, NIL));
+
+    return (create_root(insert_me, NIL, NIL));
 }
 
 /*
@@ -115,7 +113,10 @@ int btwrite(short rrn, BTPAGE *page_ptr){
     // posiciona o cursor
     fseek(btfd, addr, SEEK_SET);
 
-    printf("!---*---*---*---*---*---*---*!\n\n");
+    /*
+    printf("\nnunununununununununununununununununununu\n\n");
+
+    printf("escrevendo página...\n\n");
 
     printf("RRN: %d\n", rrn);
     printf("sizeof: %ld\n", sizeof(BTPAGE));
@@ -127,7 +128,8 @@ int btwrite(short rrn, BTPAGE *page_ptr){
         printf("%d ", page_ptr->child[i]);
     printf("\n\n");
 
-    printf("!---*---*---*---*---*---*---*!\n\n");
+    printf("nunununununununununununununununununununu\n\n");
+    */
 
     // faz a escrita, de fato
     return fwrite(page_ptr, sizeof(BTPAGE), 1, btfd);

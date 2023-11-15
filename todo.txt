@@ -1,6 +1,23 @@
 1. Impedir a inserção de chaves repetidas.
+
 2. Verbose (print), avisar:
     - (OK) que um nó foi dividido - “Divisão de nó”
     - (OK) quando houver promoção de chave - “Chave promovida: <X>”
     - (OK) quando a inserção for bem sucedida: “Chave inserida com sucesso: <X>” / printar ao final da inserção
     - (OK) quando tentar inserir chave já existente: “Chave duplicada: <X>” / printar ao final da inserção
+
+3. Atualizar funções para serem compatíveis com a nova struct:
+OK! - void btclose();
+OK! - int btopen();
+OK! - int btread(short rrn, BTPAGE *page_ptr);
+OK! - int btwrite(short rrn, BTPAGE *page_ptr);
+OK! - short create_root(char key, short left, short right);
+OK! - short create_tree();
+OK! - short getpage();
+OK! - short getroot();
+OK! - void ins_in_page(char key,short r_child, BTPAGE *p_page);
+OK! - void pageinit(BTPAGE *p_page);
+OK! - void putroot(short root);
+OK! - int search_node(char key, BTPAGE *p_page, short *pos);
+OK! - void split(char key, short r_child, BTPAGE *p_oldpage, char *promo_key, short *promo_r_child, BTPAGE *p_newpage);
+OK! - int insert(short rrn, char key, short *promo_r_child, char *promo_key);

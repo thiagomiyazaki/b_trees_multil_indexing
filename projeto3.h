@@ -4,29 +4,6 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-/* cada registro de índice/página tem 91 bytes */
-
-/*
-tive que inserir essa diretiva para desligar uma otimização
-na hora da compilação que forçava a struct a ter 14 bytes
-ao invés de 13 - a otimização ajuda o programa a acessar
-mais rapidamente a memória, pois dependendo do endereço em que
-o dado cai, é mais fácil e rápido ler na memória.
-*/
-#pragma pack(1)
-
-// note que MAXKEYS guarda a quantidade máxima de chaves
-// logo a quantidade de pointer to children = MAXKEYS + 1
-#define MAXKEYS 3
-#define MINKEYS 1  // quantidade mínima de chaves?
-#define NIL (-1)
-
-// é como se fosse o NIL/NULL mas para keys, indica vazio
-#define NOKEY '@'    
-       
-#define NO 0
-#define YES 1
-
 #define MAX_SIZE_CLIENTE_CODE 12
 #define MAX_SIZE_VEICULO_CODE 8
 #define MAX_SIZE_CLIENTE_NOME 51
@@ -38,6 +15,9 @@ o dado cai, é mais fácil e rápido ler na memória.
 #define SIZE_VEICULO_NOME 50
 #define SIZE_CHAVE_PRIMA 19
 
+
+/*
+// !--- DEFINIÇÃO DAS STRUCTS ---!
 typedef struct chave_prima_t{
     char chave[SIZE_CHAVE_PRIMA];
 } chave_prima;
@@ -55,52 +35,8 @@ typedef struct registro_ins_t{
     int no_dias;
     char size_registro;
 } registro;
-
-// struct que define uma página
-
-typedef struct {
-    short keycount; // quantidade de chaves em uma página
-    reg_index key[MAXKEYS]; // array de indices
-    short child[MAXKEYS+1]; // pointers para os RRNs dos descendentes
-} BTPAGE;
-
-/*
-typedef struct {
-       char key[12];
-       long b_offset;
-} PKEY;
-
-typedef struct {
-       short keycount;
-       PKEY keys[MAXKEYS];       // array de chaves primárias
-       short child[MAXKEYS+1]
-} BTPAGE;
 */
 
-#define PAGESIZE sizeof(BTPAGE)
-
-
-// a keyword extern é usada para declarar uma variável global
-// cuja definição pode estar em algum outro arquivo
-extern short root; // rrn of root page
-extern FILE* btfd; // file descriptor of btree file
-extern FILE* infd; // file descriptor of input file
-
-/* prototypes */
-void btclose();
-int btopen();
-int btread(short rrn, BTPAGE *page_ptr);
-int btwrite(short rrn, BTPAGE *page_ptr);
-short create_root(reg_index key, short left, short right);
-short create_tree(reg_index insert_me);
-short getpage();
-short getroot();
-int insert(short rrn, reg_index key, short *promo_r_child, reg_index *promo_key, bool *insertion_flag);
-void ins_in_page(reg_index key,short r_child, BTPAGE *p_page);
-void pageinit(BTPAGE *p_page);
-void putroot(short root);
-int search_node(reg_index key, BTPAGE *p_page, short *pos);
-void split(reg_index key, short r_child, BTPAGE *p_oldpage, reg_index *promo_key, short *promo_r_child, BTPAGE *p_newpage);
 
 // !--- FUNÇÕES LOAD ---!
 // funcao que le o arquivo e o carrega na memoria como

@@ -17,18 +17,19 @@ pre:
     - short promo_r_child: ptr do filho direito de promo_key (chave promovida)
     - promo_key: a chave a ser promovida
 */
-int insert(short rrn, char key, short *promo_r_child, char *promo_key){
+
+int insert(short rrn, reg_index key, short *promo_r_child, reg_index *promo_key, bool *insertion_flag){
     BTPAGE page,         // current page
         newpage;         // new page created if split occurs
     int found, promoted; // boolean values
     short pos,
         p_b_rrn;  // rrn promoted from below
-    char p_b_key; // key promoted from below
+    reg_index p_b_key; // key promoted from below
 
     // se o rrn atual é igual a NIL, isto quer dizer que fomos além
     // do nó filho, e atingimos um nó inexistente
     if (rrn == NIL){
-        *promo_key = key;
+        reg_index_copy(promo_key, &key);
         *promo_r_child = NIL;
         return (YES);
     }
@@ -40,23 +41,25 @@ int insert(short rrn, char key, short *promo_r_child, char *promo_key){
     found = search_node(key, &page, &pos);
 
     if (found){
-        printf("Chave Duplicada: %c \n\007", key);
+        printf("!--- Chave Duplicada: %s --! \n\007", key.chave.chave);
         return (0);
     }
 
-    promoted = insert(page.child[pos], key, &p_b_rrn, &p_b_key);
+    promoted = insert(page.child[pos], key, &p_b_rrn, &p_b_key, insertion_flag);
     if (!promoted){
         return (NO);
     }
 
     // se ainda há espaço para inserir
     if (page.keycount < MAXKEYS){
+        *insertion_flag = true;
         ins_in_page(p_b_key, p_b_rrn, &page);
         btwrite(rrn, &page);
-        printf("Chave inserida com sucesso: %c\n", key);
+        printf("!--- Chave inserida com sucesso: %s ---!\n", key.chave.chave);
         return (NO);
     }
     else{ // não há espaço disponível dentro da página, tem q fazer split
+        *insertion_flag = true;
         split(p_b_key, p_b_rrn, &page, promo_key, promo_r_child, &newpage);
         btwrite(rrn, &page);
         btwrite(*promo_r_child, &newpage);
